@@ -54,4 +54,13 @@ client.on("interactionCreate", async interaction => {
     }
 })
 
+client.on("guildCreate", async () => {
+    rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, client.guild.id), {
+        body: commands
+    })
+    .then(() => console.log("Added commands to " + guildId))
+    .catch(console.error);
+})
+//implementa aggiunta comandi su nuova guild
+
 client.login(process.env.TOKEN);

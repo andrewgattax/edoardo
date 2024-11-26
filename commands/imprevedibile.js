@@ -12,24 +12,27 @@ module.exports = {
     description: "edoardo tira un porcone, ma quando non te lo aspetti",
     async execute ({client, interaction}) {
 
+        let intervalTime = 3;
+
         if(intervalState.getIntervalId()) {
             interaction.reply("edoardo è già pronto a bestemmiare");
-        }
-
-        if(interaction.member.voice.channel) {
-            const connection = joinVoiceChannel({
-                channelId: interaction.member.voice.channel.id,
-                guildId: interaction.guild.id,
-                adapterCreator: interaction.guild.voiceAdapterCreator
-            });
-        }
-
-        const intervalId = setInterval( () => {
-            bestemmia(client, interaction);
-        }, 4 * 60 * 1000); 
-
-        intervalState.setIntervalId(intervalId);
-        await interaction.reply("buongiorno figli di puttana");
+        } else {
+            if(interaction.member.voice.channel) {
+                const connection = joinVoiceChannel({
+                    channelId: interaction.member.voice.channel.id,
+                    guildId: interaction.guild.id,
+                    adapterCreator: interaction.guild.voiceAdapterCreator
+                });
+            }
+    
+            const intervalId = setInterval( () => {
+                bestemmia(client, interaction);
+                intervalTime = Math.floor(Math.random() * 3) + 2;
+            }, intervalTime * 60 * 1000); 
+    
+            intervalState.setIntervalId(intervalId);
+            await interaction.reply("buongiorno figli di puttana");
+        }     
     }
 }
 
