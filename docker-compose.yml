@@ -4,7 +4,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: DockerFile
+      dockerfile: Dockerfile
     image: edoardojs:latest  # Replace with your image name
     container_name: edoardojs
     network_mode: "bridge"
