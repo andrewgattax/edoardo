@@ -49,7 +49,7 @@ module.exports = {
                 connection.subscribe(player);
                 await interaction.reply("okay fratello");
             } else {
-                interaction.reply("edoardo non sa in che cazzo di canale deve entrare coglione.");
+                interaction.reply("edoardo non sa in che cazzo di canale deve entrare coglione gay.");
             }
         } catch (error) {
             console.error(error);
