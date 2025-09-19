@@ -8,7 +8,7 @@ const axios = require('axios');
 
 module.exports = {
     name: "bestemmia",
-    description: "edoardo tira un porcone",
+    description: "edoardo tira un porcone assurdo",
     async execute ({client, interaction}) {
 
         try {
