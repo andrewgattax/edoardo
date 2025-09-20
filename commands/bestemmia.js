@@ -12,7 +12,7 @@ const ffmpegPath = require('ffmpeg-static');
 
 module.exports = {
     name: "bestemmia",
-    description: "edoardo tira un porcone assurdo",
+    description: "edoardo tira un porcone davvero assurdo",
     async execute ({client, interaction}) {
 
         try {
