@@ -73,18 +73,20 @@ async function bestemmia (client, interaction) {
         finalAudio = domenicoPath;
     } else {
         await new Promise((resolve, reject) => {
-            const ffmpeg = spawn('ffmpeg', [
-                '-i', audioPath,
-                '-af', distortionChain,
-                '-y',
-                destroyedAudioPath,
-            ]);
-
-            ffmpeg.on('close', (code) => {
-                if (code === 0) resolve();
-                else reject(new Error(`FFmpeg failed with code ${code}`));
-            });
+            ffmpeg(audioPath)
+                .audioFilters(distortionChain)
+                .output(destroyedAudioPath)
+                .on('end', () => {
+                    console.log('Audio processing completato');
+                    resolve();
+                })
+                .on('error', (err) => {
+                    console.error('Errore durante l\'elaborazione audio:', err);
+                    reject(err);
+                })
+                .run();
         });
+
 
         finalAudio = destroyedAudioPath;
     }

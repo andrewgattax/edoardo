@@ -5,6 +5,10 @@ const googleTTS = require('google-tts-api');
 const prism = require('prism-media');
 const { spawn } = require('child_process');
 const axios = require('axios');
+const ffmpeg = require('fluent-ffmpeg');
+const ffmpegPath = require('ffmpeg-static');
+
+
 
 module.exports = {
     name: "bestemmia",
@@ -47,19 +51,21 @@ module.exports = {
             finalAudio = domenicoPath;
         } else {
             await new Promise((resolve, reject) => {
-                const ffmpeg = spawn('ffmpeg', [
-                    '-i', audioPath,
-                    '-af', distortionChain,
-                    '-y',
-                    destroyedAudioPath,
-                ]);
-    
-                ffmpeg.on('close', (code) => {
-                    if (code === 0) resolve();
-                    else reject(new Error(`FFmpeg failed with code ${code}`));
-                });
+                ffmpeg(audioPath)
+                    .audioFilters(distortionChain)
+                    .output(destroyedAudioPath)
+                    .on('end', () => {
+                        console.log('Audio processing completato');
+                        resolve();
+                    })
+                    .on('error', (err) => {
+                        console.error('Errore durante l\'elaborazione audio:', err);
+                        reject(err);
+                    })
+                    .run();
             });
-    
+
+
             finalAudio = destroyedAudioPath;
         }
 
@@ -74,13 +80,23 @@ module.exports = {
             const resource = createAudioResource(finalAudio);
             player.play(resource);
             connection.subscribe(player);
+            
+            // Reply di successo
             await interaction.reply("okay fratello");
         } else {
-            interaction.reply("edoardo non sa in che cazzo di canale deve entrare coglione.");
+            // Reply se non è in un canale vocale
+            await interaction.reply("edoardo non sa in che cazzo di canale deve entrare coglione.");
         }
         } catch (error) {
             console.error(error);
-            interaction.reply("Edoardo internal error");
+            
+            // Controlla se l'interaction è già stata acknowledged
+            if (!interaction.replied && !interaction.deferred) {
+                await interaction.reply("Edoardo internal error");
+            } else {
+                // Se è già stata replied, usa followUp
+                await interaction.followUp("Edoardo internal error");
+            }
         }       
     }
 }

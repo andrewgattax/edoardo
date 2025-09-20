@@ -6,6 +6,11 @@ const { joinVoiceChannel, createAudioPlayer, createAudioResource } = require('@d
 const fs = require("node:fs");
 const path = require("node:path");
 
+const ffmpeg = require('fluent-ffmpeg');
+const ffmpegPath = require('ffmpeg-static');
+
+ffmpeg.setFfmpegPath(ffmpegPath);
+
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages]
 })

@@ -21,18 +21,20 @@ module.exports = {
             const distortionChain = "volume=30.0,highpass=f=800,asoftclip=type=hard:output=2";
 
             await new Promise((resolve, reject) => {
-                const ffmpeg = spawn('ffmpeg', [
-                    '-i', audioPath,
-                    '-af', distortionChain,
-                    '-y',
-                    destroyedAudioPath,
-                ]);
-
-                ffmpeg.on('close', (code) => {
-                    if (code === 0) resolve();
-                    else reject(new Error(`FFmpeg failed with code ${code}`));
-                });
+                ffmpeg(audioPath)
+                    .audioFilters(distortionChain)
+                    .output(destroyedAudioPath)
+                    .on('end', () => {
+                        console.log('Audio processing completato');
+                        resolve();
+                    })
+                    .on('error', (err) => {
+                        console.error('Errore durante l\'elaborazione audio:', err);
+                        reject(err);
+                    })
+                    .run();
             });
+
 
             finalAudio = destroyedAudioPath;
 
