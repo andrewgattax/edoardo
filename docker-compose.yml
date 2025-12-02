@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: edoardojs:latest  # Replace with your image namee
+    image: edoardojs:latest  # Replacedai with your image namee
     container_name: edoardojs
     network_mode: "bridge"
     restart: unless-stopped
