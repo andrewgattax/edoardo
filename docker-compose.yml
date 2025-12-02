@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  app:
+  edoardo:
     build:
       context: .
       dockerfile: Dockerfile
@@ -10,3 +10,6 @@ services:
     network_mode: "bridge"
     restart: unless-stopped
     working_dir: /app
+    env_file:
+      - .env
+    
