@@ -5,6 +5,8 @@ const googleTTS = require('google-tts-api');
 const prism = require('prism-media');
 const {spawn} = require('child_process');
 const axios = require('axios');
+const ffmpeg = require('fluent-ffmpeg');
+const ffmpegPath = require('ffmpeg-static');
 
 module.exports = {
     name: "sisifo",

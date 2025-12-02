@@ -6,6 +6,8 @@ const prism = require('prism-media');
 const { spawn } = require('child_process');
 const axios = require('axios');
 const intervalState = require('../intervalState');
+const ffmpeg = require('fluent-ffmpeg');
+const ffmpegPath = require('ffmpeg-static');
 
 module.exports = {
     name: "stop",
