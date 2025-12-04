@@ -42,7 +42,7 @@ module.exports = {
             const destroyedAudioPath = "./tempAudio/audio-destroyed.mp3";
             const domenicoPath = "./assets/le_voci_di_domenico.mp3";
 
-            let isDomenico = Math.random() <= 0.2;
+            let isDomenico = Math.random() <= 0.10;
             console.log(isDomenico);
             let distortionChain = "volume=30.0,highpass=f=800,asoftclip=type=hard:output=2";
 
